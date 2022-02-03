@@ -11,6 +11,7 @@ import Account from "components/Account";
 import Chains from "components/Chains";
 import TokenPrice from "components/TokenPrice";
 import NFTBalance from "components/NFTBalance";
+import NFTTokens from "components/NFTTokens";
 import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
 import NativeBalance from "components/NativeBalance";
@@ -99,7 +100,7 @@ const App = ({ isServerInfo }) => {
         <div style={styles.content}>
           <Switch>
             <Route path="/nftMarket">
-              <NFTBalance />
+              <NFTTokens collectionAddress={collectionAddress}/>
             </Route>
             <Route path="/nftBalance">
               <NFTBalance />
