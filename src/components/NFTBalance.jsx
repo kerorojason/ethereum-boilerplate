@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMoralis } from "react-moralis";
 import { Card, Image, Tooltip, Modal, Input } from "antd";
 import { useNFTBalance } from "hooks/useNFTBalance";
-import { FileSearchOutlined, SendOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { FileSearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
 import { getExplorer } from "helpers/networks";
 import AddressInput from "./AddressInput";
@@ -79,11 +79,8 @@ function NFTBalance() {
                     }
                   />
                 </Tooltip>,
-                <Tooltip title="Transfer NFT">
-                  <SendOutlined onClick={() => handleTransferClick(nft)} />
-                </Tooltip>,
-                <Tooltip title="Sell On OpenSea">
-                  <ShoppingCartOutlined onClick={() => alert("OPENSEA INTEGRATION COMING!")} />
+                <Tooltip title="List this NFT">
+                  <ShoppingCartOutlined onClick={() => alert("Add marketplace smart contract integration")} />
                 </Tooltip>,
               ]}
               style={{ width: 240, border: "2px solid #e7eaf3" }}
