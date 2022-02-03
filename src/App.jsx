@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
-  Redirect,
 } from "react-router-dom";
 import Account from "components/Account";
 import Chains from "components/Chains";
@@ -49,9 +48,11 @@ const styles = {
     fontWeight: "600",
   },
 };
-const App = ({ isServerInfo }) => {
+const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
+
+  const [collectionAddress, setCollectionAddress] = useState("0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D");
 
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
