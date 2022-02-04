@@ -11,6 +11,7 @@ import Chains from "components/Chains";
 import TokenPrice from "components/TokenPrice";
 import NFTBalance from "components/NFTBalance";
 import NFTTokens from "components/NFTTokens";
+import SearchCollections from "components/SearchCollections";
 import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
 import NativeBalance from "components/NativeBalance";
@@ -52,7 +53,7 @@ const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
 
-  const [collectionAddress, setCollectionAddress] = useState("0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D");
+  const [collectionAddress, setCollectionAddress] = useState();
 
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
@@ -64,6 +65,10 @@ const App = () => {
       <Router>
         <Header style={styles.header}>
           <Logo />
+          <SearchCollections
+            collectionAddress={collectionAddress}
+            onChange={setCollectionAddress}
+          />
           <Menu
             theme="light"
             mode="horizontal"
@@ -101,7 +106,10 @@ const App = () => {
         <div style={styles.content}>
           <Switch>
             <Route path="/nftMarket">
-              <NFTTokens collectionAddress={collectionAddress}/>
+              <NFTTokens
+                collectionAddress={collectionAddress}
+                setCollectionAddress={setCollectionAddress}
+              />
             </Route>
             <Route path="/nftBalance">
               <NFTBalance />

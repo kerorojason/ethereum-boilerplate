@@ -27,7 +27,7 @@ function NFTBalance() {
   const [visible, setVisibility] = useState(false);
   const [receiverToSend, setReceiver] = useState(null);
   const [amountToSend, setAmount] = useState(null);
-  const [nftToSend, setNftToSend] = useState(null);
+  const [nftToSend] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
   async function transfer(nft, amount, receiver) {
@@ -54,11 +54,6 @@ function NFTBalance() {
       });
   }
 
-  const handleTransferClick = (nft) => {
-    setNftToSend(nft);
-    setVisibility(true);
-  };
-
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
@@ -72,15 +67,25 @@ function NFTBalance() {
             <Card
               hoverable
               actions={[
-                <Tooltip title="View On Blockexplorer">
+                <Tooltip
+                  title="View On Blockexplorer"
+                  key="View On Blockexplorer"
+                >
                   <FileSearchOutlined
                     onClick={() =>
-                      window.open(`${getExplorer(chainId)}address/${nft.token_address}`, "_blank")
+                      window.open(
+                        `${getExplorer(chainId)}address/${nft.token_address}`,
+                        "_blank"
+                      )
                     }
                   />
                 </Tooltip>,
-                <Tooltip title="List this NFT">
-                  <ShoppingCartOutlined onClick={() => alert("Add marketplace smart contract integration")} />
+                <Tooltip title="List this NFT" key="List this NFT">
+                  <ShoppingCartOutlined
+                    onClick={() =>
+                      alert("Add marketplace smart contract integration")
+                    }
+                  />
                 </Tooltip>,
               ]}
               style={{ width: 240, border: "2px solid #e7eaf3" }}
@@ -109,7 +114,10 @@ function NFTBalance() {
       >
         <AddressInput autoFocus placeholder="Receiver" onChange={setReceiver} />
         {nftToSend && nftToSend.contract_type === "erc1155" && (
-          <Input placeholder="amount to send" onChange={(e) => handleChange(e)} />
+          <Input
+            placeholder="amount to send"
+            onChange={(e) => handleChange(e)}
+          />
         )}
       </Modal>
     </>
