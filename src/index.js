@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+require('dotenv').config()
+
 import { MoralisProvider } from "react-moralis";
+import App from "./App";
 import "./index.css";
 import QuickStart from "components/QuickStart";
 import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
