@@ -1,20 +1,5 @@
 export const networkCollections = {
-  "0x13881": [
-    //Add Your Collections here
-    {
-      image:
-        "https://lh3.googleusercontent.com/BWCni9INm--eqCK800BbRkL10zGyflxfPwTHt4XphMSWG3XZvPx1JyGdfU9vSor8K046DJg-Q8Y4ioUlWHiCZqgR_L00w4vcbA-w=s0",
-      name: "Test Mages",
-      addrs: "0x275d553f426355c20b134D944B5b28D31CDb83DA",
-    },
-    {
-      image:
-        "https://ipfs.moralis.io:2053/ipfs/QmfLbpeVHxReWKNLaXTPcWiafi49eoAL4gRwMGuXtx2Eqe/images/14.png",
-      name: "Pixel Show",
-      addrs: "0xCA34404dD8Bd6537BE76F3A51B379F8949bD7973",
-    },
-  ],
-
+  // Ethereum
   "0x1": [
     {
       image:
@@ -65,6 +50,29 @@ export const networkCollections = {
       addrs: "0x1A92f7381B9F03921564a437210bB9396471050C",
     },
   ],
+
+  // Mumbai
+  "0x13881": [
+    {
+      image:
+        "https://lh3.googleusercontent.com/BWCni9INm--eqCK800BbRkL10zGyflxfPwTHt4XphMSWG3XZvPx1JyGdfU9vSor8K046DJg-Q8Y4ioUlWHiCZqgR_L00w4vcbA-w=s0",
+      name: "Test Mages",
+      addrs: "0x275d553f426355c20b134D944B5b28D31CDb83DA",
+    },
+    {
+      image:
+        "https://ipfs.moralis.io:2053/ipfs/QmfLbpeVHxReWKNLaXTPcWiafi49eoAL4gRwMGuXtx2Eqe/images/14.png",
+      name: "Pixel Show",
+      addrs: "0xCA34404dD8Bd6537BE76F3A51B379F8949bD7973",
+    },
+  ],
+
+  // Avalanche
+  "0xa86a": [ {
+    image: "https://lh3.googleusercontent.com/kv7wzmM4TYG9SEJ0OOCdnO0qtJUnXatXGkH8i4NzQkBUm2PDaAstFr6QLwoY8v7wRqJk7f2dIhhtq-03J25dBnIs3unACZD35uiH0Q=s130",
+    name: "Party Animals",
+    addrs:"0x770a4C7f875fb63013a6Db43fF6AF9980fcEb3b8",}
+  ]
 };
 
 export const getCollectionsByChain = (chain) => networkCollections[chain];
