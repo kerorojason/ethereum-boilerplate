@@ -13,19 +13,24 @@ export const useNFTTokenIds = (addrs) => {
     data,
     error,
     isLoading,
-  } = useMoralisWeb3ApiCall(token.getAllTokenIds, { chain: chainId, address: addrs});
+  } = useMoralisWeb3ApiCall(token.getAllTokenIds, {
+    chain: chainId,
+    address: addrs,
+  });
 
   useEffect(() => {
     if (data?.result) {
       const NFTs = data.result;
-      for (let NFT of NFTs) {
+      const nftsWithImage = NFTs.map((NFT) => {
         if (NFT?.metadata) {
-          NFT.metadata = JSON.parse(NFT.metadata);
-          // metadata is a string type
-          NFT.image = resolveLink(NFT.metadata?.image);
+          const metadata = JSON.parse(NFT.metadata);
+          return { ...NFT, metadata, image: resolveLink(NFT.metadata?.image) };
+        } else {
+          return NFT;
         }
-      }
-      setNFTTokenIds(NFTs);
+      });
+
+      setNFTTokenIds(nftsWithImage);
     }
   }, [data, resolveLink]);
 
