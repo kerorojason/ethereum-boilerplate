@@ -65,6 +65,12 @@ export const networkCollections = {
       name: "Pixel Show",
       addrs: "0xCA34404dD8Bd6537BE76F3A51B379F8949bD7973",
     },
+    {
+      image:
+        "https://gateway.pinata.cloud/ipfs/QmPLkw9xT6D7V2h3sA3Syms57kG3YqSpNocMichk49wcRY/0.png",
+      name: "Hur Meta",
+      addrs: "0xe9720670eA55507a452642ee27e01F2Ab2dA1010",
+    },
   ],
 
   // Avalanche

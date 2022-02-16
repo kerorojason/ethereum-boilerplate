@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import { useMoralis } from "react-moralis";
-import { Card, Image, Tooltip, Modal } from "antd";
 import { useNFTTokenIds } from "hooks/useNFTTokenIds";
+import { useMoralisQuery } from "react-moralis";
+import { Card, Image, Tooltip, Modal, Badge } from "antd";
 import {
   FileSearchOutlined,
   ShoppingCartOutlined,
@@ -43,6 +43,33 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
     setNftToBuy(nft);
     setVisibility(true);
   };
+
+  const queryMarketItems = useMoralisQuery("MarketItems");
+  const fetchMarketItems = JSON.parse(
+    JSON.stringify(queryMarketItems.data, [
+      "objectId",
+      "createdAt",
+      "price",
+      "nftContract",
+      "itemId",
+      "sold",
+      "tokenId",
+      "seller",
+      "owner",
+      "confirmed",
+    ])
+  );
+
+  function checkIsMarketItem(nft) {
+    const result = fetchMarketItems?.find(
+      (e) =>
+        e.nftContract === nft?.token_address &&
+        e.tokenId === nft?.token_id &&
+        e.sold === false &&
+        e.confirmed === true
+    );
+    return result;
+  }
 
   // async function transfer(nft, amount, receiver) {
   //   const options = {
@@ -111,7 +138,10 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
                 }
                 key={index}
               >
-                <Meta title={nft.name} description={nft.token_address} />
+                {checkIsMarketItem(nft) && (
+                  <Badge.Ribbon color="green" text="Buy Now" />
+                )}
+                <Meta title={nft.name} description={nft.token_id} />
               </Card>
             ))
           : // Show all collections
