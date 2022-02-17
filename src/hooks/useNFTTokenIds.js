@@ -24,7 +24,7 @@ export const useNFTTokenIds = (addrs) => {
       const nftsWithImage = NFTs.map((NFT) => {
         if (NFT?.metadata) {
           const metadata = JSON.parse(NFT.metadata);
-          return { ...NFT, metadata, image: resolveLink(NFT.metadata?.image) };
+          return { ...NFT, metadata, image: resolveLink(metadata?.image) };
         } else {
           return NFT;
         }
