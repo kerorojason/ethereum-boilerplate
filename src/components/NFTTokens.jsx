@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNFTTokenIds } from "hooks/useNFTTokenIds";
 import { useMoralisQuery } from "react-moralis";
-import { Card, Image, Tooltip, Modal, Badge } from "antd";
+import { Card, Image, Tooltip, Modal, Badge, Alert } from "antd";
 import {
   FileSearchOutlined,
   ShoppingCartOutlined,
@@ -123,7 +123,7 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
                       }
                     />
                   </Tooltip>,
-                  <Tooltip title="List this NFT" key="List this NFT">
+                  <Tooltip title="Buy this NFT" key="Buy this NFT">
                     <ShoppingCartOutlined onClick={() => handleBuyClick(nft)} />
                   </Tooltip>,
                 ]}
@@ -142,7 +142,7 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
                 {getMarketItem(nft) && (
                   <Badge.Ribbon color="green" text="Buy Now" />
                 )}
-                <Meta title={nft.name} description={nft.token_id} />
+                <Meta title={nft.name} description={`#${nft.token_id}`} />
               </Card>
             ))
           : // Show all collections
@@ -206,9 +206,9 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
           title={`Transfer ${nftToSend?.name || "NFT"}`}
           visible={visible}
           onCancel={() => setVisibility(false)}
-          onOk={() => alert("bought this nft")}
+          onOk={() => setVisibility(false)}
           confirmLoading={isPending}
-          okText="Buy"
+          okText="Ok"
           bodyStyle={{ textAlign: "center" }}
         >
           <Image
@@ -218,6 +218,7 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
             alt=""
             style={{ height: "300px" }}
           />
+          <Alert message="This NFT is currently not for sale" type="warning" />
         </Modal>
       )}
     </>
