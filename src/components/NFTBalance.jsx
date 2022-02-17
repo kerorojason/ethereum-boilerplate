@@ -116,7 +116,7 @@ function NFTBalance() {
         onCancel={() => setVisibility(false)}
         onOk={() => list(nftToSell, priceToSell)}
         confirmLoading={isPending}
-        okText="Buy"
+        okText="List"
         bodyStyle={{ textAlign: "center" }}
       >
         <Image

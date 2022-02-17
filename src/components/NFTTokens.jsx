@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNFTTokenIds } from "hooks/useNFTTokenIds";
-import { useMoralisQuery } from "react-moralis";
+import { useMoralis, useMoralisQuery } from "react-moralis";
 import { Card, Image, Tooltip, Modal, Badge, Alert } from "antd";
 import {
   FileSearchOutlined,
@@ -10,6 +10,8 @@ import {
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
 import { getExplorer, getNativeByChain } from "helpers/networks";
 import { getCollectionsByChain } from "helpers/collections";
+import { useWeb3ExecuteFunction } from "react-moralis";
+
 const { Meta } = Card;
 
 const styles = {
@@ -26,12 +28,13 @@ const styles = {
 
 function NFTTokens({ collectionAddress, setCollectionAddress }) {
   const { NFTTokenIds } = useNFTTokenIds(collectionAddress);
-  const { chainId } = useMoralisDapp();
+  const { Moralis } = useMoralis();
+  const { chainId, contractAbi, marketAddress, walletAddress } =
+    useMoralisDapp();
   const nativeName = getNativeByChain(chainId);
   const NFTCollections = getCollectionsByChain(chainId);
-  console.log("NFTTokenIds:   ", NFTTokenIds);
+  const contractProcessor = useWeb3ExecuteFunction();
 
-  // const { Moralis } = useMoralis();
   const [visible, setVisibility] = useState(false);
   // const [, setAmount] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -72,34 +75,49 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
     return result;
   }
 
-  // async function transfer(nft, amount, receiver) {
-  //   const options = {
-  //     type: nft.contract_type,
-  //     tokenId: nft.token_id,
-  //     receiver: receiver,
-  //     contractAddress: nft.token_address,
-  //   };
+  async function purchase() {
+    // setLoading(true);
+    const tokenDetails = getMarketItem(nftToBuy);
+    const itemID = tokenDetails.itemId;
+    const tokenPrice = tokenDetails.price;
+    const ops = {
+      contractAddress: marketAddress,
+      functionName: "createMarketSale",
+      abi: contractAbi,
+      params: {
+        nftContract: nftToBuy.token_address,
+        itemId: itemID,
+      },
+      msgValue: tokenPrice,
+    };
 
-  //   if (options.type === "erc1155") {
-  //     options.amount = amount;
-  //   }
+    async function updateSoldMarketItem() {
+      const id = getMarketItem(nftToBuy).objectId;
+      const marketList = Moralis.Object.extend("CreatedMarketItems");
+      const query = new Moralis.Query(marketList);
+      await query.get(id).then((obj) => {
+        obj.set("sold", true);
+        obj.set("owner", walletAddress);
+        obj.save();
+      });
+    }
 
-  //   setIsPending(true);
-  //   await Moralis.transfer(options)
-  //     .then((tx) => {
-  //       console.log(tx);
-  //       setIsPending(false);
-  //     })
-  //     .catch((e) => {
-  //       alert(e.message);
-  //       setIsPending(false);
-  //     });
-  // }
-
-  // const handleChange = (e) => {
-  //   setAmount(e.target.value);
-  // };
-
+    await contractProcessor.fetch({
+      params: ops,
+      onSuccess: () => {
+        alert("Bought");
+        // setLoading(false);
+        setVisibility(false);
+        updateSoldMarketItem();
+        // succPurchase();
+      },
+      onError: (error) => {
+        alert(error);
+        // setLoading(false);
+        // failPurchase();
+      },
+    });
+  }
   return (
     <>
       <div style={styles.NFTs}>
@@ -181,7 +199,7 @@ function NFTTokens({ collectionAddress, setCollectionAddress }) {
           title={`Transfer ${nftToSend?.name || "NFT"}`}
           visible={visible}
           onCancel={() => setVisibility(false)}
-          onOk={() => alert("bought this nft")}
+          onOk={purchase}
           confirmLoading={isPending}
           okText="Buy"
           bodyStyle={{ textAlign: "center" }}
