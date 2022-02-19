@@ -11,6 +11,7 @@ import Chains from "components/Chains";
 import TokenPrice from "components/TokenPrice";
 import NFTBalance from "components/NFTBalance";
 import NFTTokens from "components/NFTTokens";
+import Transactions from "components/Transactions";
 import SearchCollections from "components/SearchCollections";
 import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
@@ -115,7 +116,7 @@ const App = () => {
               <NFTBalance />
             </Route>
             <Route path="/transactions">
-              <NFTBalance />
+              <Transactions />
             </Route>
           </Switch>
         </div>
